@@ -225,7 +225,8 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
                         Log.d(this.getClass().getSimpleName(), "Printing to UI");
-                        mPingPongTextViewLog.append(output);
+                        mPingPongTextViewLog.append(output 
+                                + System.getProperty("line.separator"));
                         mPingPongScrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				        
                         // If we encounter a ping, throw it up on the
