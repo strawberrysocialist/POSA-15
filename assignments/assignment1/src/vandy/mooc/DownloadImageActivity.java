@@ -32,30 +32,43 @@ public class DownloadImageActivity extends Activity {
 
         // Get the URL associated with the Intent data.
         // @@ FIXED -- you fill in here.
-        Uri url = this.getIntent().getData();
-        Log.d(TAG, "Preparing to download from this URL: " + url.toString());
+        final Uri url = this.getIntent().getData();
 
         // Download the image in the background, create an Intent that
         // contains the path to the image file, and set this as the
         // result of the Activity.
 
-        // @@ TODO -- you fill in here using the Android "HaMeR"
+        // @@ FIXED -- you fill in here using the Android "HaMeR"
         // concurrency framework.  Note that the finish() method
         // should be called in the UI thread, whereas the other
         // methods should be called in the background thread.  See
         // http://stackoverflow.com/questions/20412871/is-it-safe-to-finish-an-android-activity-from-a-background-thread
         // for more discussion about this topic.
         
-        Uri imageUri = DownloadUtils.downloadImage(this.getApplicationContext(), url);
-        if (null != imageUri) {
-            Log.d(TAG, "Downloaded imgae stored at " + imageUri.toString());
-            Intent imageFile = new Intent();
-            imageFile.setData(imageUri);
-            this.setResult(RESULT_OK, imageFile);
-        }
-        else {
-            this.setResult(RESULT_CANCELED);
-        }
-        this.finish();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Preparing to download from this URL: " + url.toString());
+                Uri imageUri = DownloadUtils.downloadImage(
+                        DownloadImageActivity.this.getApplicationContext(), url);
+                
+                if (null != imageUri) {
+                    Log.d(TAG, "Downloaded imgae stored at " + imageUri.toString());
+                    Intent imageFile = new Intent();
+                    imageFile.setData(imageUri);
+                    DownloadImageActivity.this.setResult(RESULT_OK, imageFile);
+                }
+                else {
+                    DownloadImageActivity.this.setResult(RESULT_CANCELED);
+                }
+                
+                DownloadImageActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DownloadImageActivity.this.finish();
+                    }
+                });
+            }
+        }).start();
     }
 }
