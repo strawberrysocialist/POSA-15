@@ -224,17 +224,20 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {	
                     @Override
                     public void run() {
+                        Log.d(this.getClass().getSimpleName(), "Printing to UI");
                         mPingPongTextViewLog.append(output);
                         mPingPongScrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				        
                         // If we encounter a ping, throw it up on the
                         // screen in color.
                         if (output.toLowerCase(Locale.US).contains("ping")) {
+                            Log.d(this.getClass().getSimpleName(), "Ping happened");
                             mPingPongColorOutput.setBackgroundColor(Color.WHITE);
                             mPingPongColorOutput.setTextColor(Color.BLACK);
                             mPingPongColorOutput.setText("PING");
                         }
                         else if (output.toLowerCase(Locale.US).contains("pong")) {
+                            Log.d(this.getClass().getSimpleName(), "Pong happened");
                             mPingPongColorOutput.setBackgroundColor(Color.BLACK);
                             mPingPongColorOutput.setTextColor(Color.WHITE);
                             mPingPongColorOutput.setText("PONG");
@@ -244,9 +247,11 @@ public class MainActivity extends Activity {
 				
                 // Wait 0.5 seconds before handling the next message.
                 try {
+                    Log.d(this.getClass().getSimpleName(), "Waiting...");
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     // If we get interrupted, stop the looper.
+                    Log.d(this.getClass().getSimpleName(), "Quiting...");
                     Looper.myLooper().quit();
                 }
             }

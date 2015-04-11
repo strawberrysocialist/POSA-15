@@ -34,7 +34,11 @@ public class OutputStrategy {
         // Runnable that's ultimately posted to the UI Thread via
         // another Thread that sleeps for 0.5 seconds to let the user
         // see what's going on.
-        // @@ TODO - you fill in here.
+        // @@ FIXED - you fill in here.
+        if (null != mOuterClass.get()) {
+            Log.d(this.getClass().getSimpleName(), "Calling out to print to UI");
+            mOuterClass.get().print(outputString);
+        }
     }
 
     /**

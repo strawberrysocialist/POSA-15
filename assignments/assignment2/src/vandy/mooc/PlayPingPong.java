@@ -1,11 +1,13 @@
 package vandy.mooc;
 
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.TimeUnit;
 
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * @class PlayPingPong
@@ -36,14 +38,18 @@ public class PlayPingPong implements Runnable {
      * Define a pair of Handlers used to send/handle Messages via the
      * HandlerThreads.
      */
-    // @@ TODO - you fill in here.
+    // @@ FIXED - you fill in here.
+    Handler[] mHandlers = {null, null};
+    //Handler mPing;
+    //Handler mPong;
 
     /**
      * Define a CyclicBarrier synchronizer that ensures the
      * HandlerThreads are fully initialized before the ping-pong
      * algorithm begins.
      */
-    // @@ TODO - you fill in here.
+    // @@ FIXED - you fill in here.
+    CyclicBarrier barrier = new CyclicBarrier(2);
 
     /**
      * Implements the concurrent ping/pong algorithm using a pair of
@@ -73,7 +79,9 @@ public class PlayPingPong implements Runnable {
          */
         public PingPongThread(PingPong myType) {
         	super(myType.toString());
-            // @@ TODO - you fill in here.
+            // @@ FIXED - you fill in here.
+            mMyType = myType;
+            mIterationsCompleted = 0;
         }
 
         /**
@@ -85,11 +93,27 @@ public class PlayPingPong implements Runnable {
         protected void onLooperPrepared() {
             // Create the Handler that will service this type of
             // Handler, i.e., either PING or PONG.
-            // @@ TODO - you fill in here.
+            // @@ FIXED - you fill in here.
+            if (mMyType == PingPong.PING) {
+                Log.d(this.getClass().getSimpleName(), "Creating Ping handler");
+                //mHandlers[0] = new Handler(PingPongThread.this);
+                //mPing = new Handler(PingPongThread.this);
+            } else if (mMyType == PingPong.PONG) {
+                Log.d(this.getClass().getSimpleName(), "Creating Pong handler");
+                //mHandlers[1] = new Handler(PingPongThread.this);
+                //mPong = new Handler(PingPongThread.this);
+            }
+            mHandlers[mMyType.ordinal()] = new Handler(PingPongThread.this);
 
             try {
                 // Wait for both Threads to initialize their Handlers.
-                // @@ TODO - you fill in here.
+                // @@ FIXED - you fill in here.
+                Log.d(this.getClass().getSimpleName(), "Waiting to both handlers to be ready");
+                Log.d(this.getClass().getSimpleName(), barrier.getNumberWaiting() + " threads waiting.");
+                barrier.await(5, TimeUnit.SECONDS);
+                Log.d(this.getClass().getSimpleName(), "Barrier done in " + mMyType.name() + " thread.");
+                //Looper.loop();
+                //Log.d(this.getClass().getSimpleName(), "Looper started in " + mMyType.name() + " thread.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -98,7 +122,22 @@ public class PlayPingPong implements Runnable {
             // where the PING Handler is the "target" and the PONG
             // Handler is the "obj" to use for the reply and (2)
             // sending the Message to the PING_THREAD's Handler.
-            // @@ TODO - you fill in here.
+            // @@ FIXED - you fill in here.
+            Log.d(this.getClass().getSimpleName(), "Launching...");
+            if (mMyType == PingPong.PING) {
+                Log.d(this.getClass().getSimpleName(), "Sending kick-off message to Ping");
+                //Message msg = Message.obtain(mHandlers[0], PingPong.PING.ordinal(), mHandlers[1]);
+                Message msg = Message.obtain();
+                msg.setTarget(mHandlers[PingPong.PING.ordinal()]);
+                msg.obj = mHandlers[PingPong.PONG.ordinal()];
+                msg.sendToTarget();
+                //mHandlers[0].sendMessage(msg);
+                //mPing.sendMessage(Message.obtain(
+                //      mPing, PingPong.PING.ordinal(), mPong));
+                Log.d(this.getClass().getSimpleName(), "Finished Ping handlerThread");
+            } else {
+                Log.d(this.getClass().getSimpleName(), "Finished Pong handlerThread");
+            }
         }
 
         /**
@@ -109,24 +148,72 @@ public class PlayPingPong implements Runnable {
         public boolean handleMessage(Message reqMsg) {
             // Print the appropriate string if this thread isn't done
             // with all its iterations yet.
-            // @@ TODO - you fill in here, replacing "true" with the
+            // @@ FIXED - you fill in here, replacing "true" with the
             // appropriate code.
-            if (true) {
+            Log.d(this.getClass().getSimpleName(), "Handling message...");
+            if (mIterationsCompleted < mMaxIterations) {
+                Log.d(this.getClass().getSimpleName(), "Incrementing..." + mMyType.name() 
+                        + " to " + mIterationsCompleted);
+                mOutputStrategy.print(System.getProperty("line.separator") 
+                        + mMyType.name() + " " + mIterationsCompleted); 
+                mIterationsCompleted++;
             } else {
                 // Shutdown the HandlerThread to the main PingPong
                 // thread can join with it.
-                // @@ TODO - you fill in here.
+                // @@ FIXED - you fill in here.
+                Log.d(this.getClass().getSimpleName(), "Quitting..." + mMyType.name());
+                Looper looper = this.getLooper();
+                looper.quit();
+                reqMsg.obj = null;
             }
 
             // Create a Message that contains the Handler as the
             // reqMsg "target" and our Handler as the "obj" to use for
             // the reply.
-            // @@ TODO - you fill in here.
+            // @@ FIXED - you fill in here.
+            Message msg = null;
+            if (null != reqMsg) {
+                msg = Message.obtain();
+                msg.setTarget((Handler) reqMsg.obj);
+                msg.obj = reqMsg.getTarget();
+                
+                if (mMyType == PingPong.PING) {
+                    Log.d(this.getClass().getSimpleName(), "Preparing message for Pong");
+                    /**
+                    msg = Message.obtain();
+                    msg.setTarget(mHandlers[PingPong.PONG.ordinal()]);
+                    msg.obj = mHandlers[PingPong.PING.ordinal()];
+                    **/
+                    //msg = Message.obtain(mHandlers[1], PingPong.PING.ordinal(), mHandlers[0]);
+                    //msg = Message.obtain(mPong, this);
+                } else if (mMyType == PingPong.PONG) {
+                    Log.d(this.getClass().getSimpleName(), "Preparing message for Ping");
+                    /**
+                    msg = Message.obtain();
+                    msg.setTarget(mHandlers[PingPong.PING.ordinal()]);
+                    msg.obj = mHandlers[PingPong.PONG.ordinal()];
+                    **/
+                    //msg = Message.obtain(mHandlers[0], PingPong.PING.ordinal(), mHandlers[1]);
+                    //msg = Message.obtain(mPing, this);
+                }
+            }
 
             // Return control to the Handler in the other
             // HandlerThread, which is the "target" of the msg
             // parameter.
-            // @@ TODO - you fill in here.
+            // @@ FIXED - you fill in here.
+            if (null != msg && null != msg.getTarget()) {
+                if (mMyType == PingPong.PING) {
+                    Log.d(this.getClass().getSimpleName(), "Sending Pong message from Ping");
+                    //mHandlers[0].sendMessage(msg);
+                    //mPing.sendMessage(msg);
+                } else if (mMyType == PingPong.PONG) {
+                    Log.d(this.getClass().getSimpleName(), "Sending Ping message from Pong");
+                    //mHandlers[1].sendMessage(msg);
+                    //mPong.sendMessage(msg);
+                }
+                msg.sendToTarget();
+            }
 
             return true;
         }
@@ -153,15 +240,30 @@ public class PlayPingPong implements Runnable {
         mOutputStrategy.print("Ready...Set...Go!");
        
         // Create the ping and pong threads.
-        // @@ TODO - you fill in here.
+        // @@ FIXED - you fill in here.
+        PingPongThread ping = new PingPongThread(PingPong.PING);
+        PingPongThread pong = new PingPongThread(PingPong.PONG);
 
         // Start ping and pong threads, which cause their Looper to
         // loop.
-        // @@ TODO - you fill in here.
+        // @@ FIXED - you fill in here.
+        Log.d(this.getClass().getSimpleName(), "Starting Ping & Ping threads");
+        ping.start();
+        pong.start();
 
         // Barrier synchronization to wait for all work to be done
         // before exiting play().
-        // @@ TODO - you fill in here.
+        // @@ FIXED - you fill in here.
+        try {
+            Log.d(this.getClass().getSimpleName(), "Waiting for Ping & Ping threads to finish");
+            ping.join();
+            pong.join();
+        } catch (InterruptedException e) {
+            Log.d(this.getClass().getSimpleName(), "Interrupted!");
+            ping.interrupt();
+            pong.interrupt();
+            e.printStackTrace();
+        }
 
         // Let the user know we're done.
         mOutputStrategy.print("Done!");
