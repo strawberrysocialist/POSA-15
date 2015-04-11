@@ -18,6 +18,11 @@ import android.util.Log;
  */
 public class PlayPingPong implements Runnable {
     /**
+     * Debugging tag used by the Android logger.
+     */
+    private final String TAG = getClass().getSimpleName();
+
+    /**
      * Keep track of whether a Thread is printing "ping" or "pong".
      */
     private enum PingPong {
@@ -93,19 +98,19 @@ public class PlayPingPong implements Runnable {
             // Handler, i.e., either PING or PONG.
             // @@ FIXED - you fill in here.
             if (mMyType == PingPong.PING) {
-                Log.d(this.getClass().getSimpleName(), "Creating Ping handler");
+                Log.d(TAG, "Creating Ping handler");
             } else if (mMyType == PingPong.PONG) {
-                Log.d(this.getClass().getSimpleName(), "Creating Pong handler");
+                Log.d(TAG, "Creating Pong handler");
             }
             mHandlers[mMyType.ordinal()] = new Handler(PingPongThread.this);
 
             try {
                 // Wait for both Threads to initialize their Handlers.
                 // @@ FIXED - you fill in here.
-                Log.d(this.getClass().getSimpleName(), "Waiting to both handlers to be ready");
-                Log.d(this.getClass().getSimpleName(), barrier.getNumberWaiting() + " threads waiting.");
+                Log.d(TAG, "Waiting to both handlers to be ready");
+                Log.d(TAG, barrier.getNumberWaiting() + " threads waiting.");
                 barrier.await(5, TimeUnit.SECONDS);
-                Log.d(this.getClass().getSimpleName(), "Barrier done in " + mMyType.name() + " thread.");
+                Log.d(TAG, "Barrier done in " + mMyType.name() + " thread.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -115,16 +120,16 @@ public class PlayPingPong implements Runnable {
             // Handler is the "obj" to use for the reply and (2)
             // sending the Message to the PING_THREAD's Handler.
             // @@ FIXED - you fill in here.
-            Log.d(this.getClass().getSimpleName(), "Launching...");
+            Log.d(TAG, "Launching...");
             if (mMyType == PingPong.PING) {
-                Log.d(this.getClass().getSimpleName(), "Sending kick-off message to Ping");
+                Log.d(TAG, "Sending kick-off message to Ping");
                 Message msg = Message.obtain();
                 msg.setTarget(mHandlers[PingPong.PING.ordinal()]);
                 msg.obj = mHandlers[PingPong.PONG.ordinal()];
                 msg.sendToTarget();
-                Log.d(this.getClass().getSimpleName(), "Finished Ping handlerThread");
+                Log.d(TAG, "Finished Ping handlerThread");
             } else {
-                Log.d(this.getClass().getSimpleName(), "Finished Pong handlerThread");
+                Log.d(TAG, "Finished Pong handlerThread");
             }
         }
 
@@ -138,10 +143,9 @@ public class PlayPingPong implements Runnable {
             // with all its iterations yet.
             // @@ FIXED - you fill in here, replacing "true" with the
             // appropriate code.
-            Log.d(this.getClass().getSimpleName(), 
-                    "Handling message...");
+            Log.d(TAG, "Handling message...");
             if (mIterationsCompleted < mMaxIterations) {
-                Log.d(this.getClass().getSimpleName(), 
+                Log.d(TAG, 
                         "Incrementing..." + mMyType.name() 
                         + " to " + mIterationsCompleted);
                 mOutputStrategy.print(mMyType.name() 
@@ -155,8 +159,7 @@ public class PlayPingPong implements Runnable {
                     Handler receiver = (Handler) reqMsg.obj;
                     receiver.sendEmptyMessage(-1);
                 }
-                Log.d(this.getClass().getSimpleName(), 
-                        "Quitting..." + mMyType.name());
+                Log.d(TAG, "Quitting..." + mMyType.name());
                 Looper looper = getLooper();
                 looper.quit();
                 return true;
@@ -172,7 +175,7 @@ public class PlayPingPong implements Runnable {
                 msg.setTarget((Handler) reqMsg.obj);
                 msg.obj = reqMsg.getTarget();
                 
-                Log.d(this.getClass().getSimpleName(), 
+                Log.d(TAG, 
                         "Preparing message for " + mMyType.name());
             }
 
@@ -182,7 +185,7 @@ public class PlayPingPong implements Runnable {
             // @@ FIXED - you fill in here.
             if (null != msg && null != msg.getTarget()) {
                 int otherTypeIndex = Math.abs(mMyType.ordinal() - 1);
-                Log.d(this.getClass().getSimpleName(), "Sending " 
+                Log.d(TAG, "Sending " 
                         + PingPong.values()[otherTypeIndex].name() 
                         + " message from " + mMyType.name());
                 msg.sendToTarget();
@@ -220,7 +223,7 @@ public class PlayPingPong implements Runnable {
         // Start ping and pong threads, which cause their Looper to
         // loop.
         // @@ FIXED - you fill in here.
-        Log.d(this.getClass().getSimpleName(), "Starting Ping & Ping threads");
+        Log.d(TAG, "Starting Ping & Ping threads");
         ping.start();
         pong.start();
 
@@ -228,12 +231,12 @@ public class PlayPingPong implements Runnable {
         // before exiting play().
         // @@ FIXED - you fill in here.
         try {
-            Log.d(this.getClass().getSimpleName(), "Waiting for Ping & Ping threads to finish");
+            Log.d(TAG, "Waiting for Ping & Ping threads to finish");
             ping.join();
             pong.join();
-            Log.d(this.getClass().getSimpleName(), "Main done...Quitting");
+            Log.d(TAG, "Main done...Quitting");
         } catch (InterruptedException e) {
-            Log.d(this.getClass().getSimpleName(), "Interrupted!");
+            Log.d(TAG, "Interrupted!");
             ping.interrupt();
             pong.interrupt();
             e.printStackTrace();

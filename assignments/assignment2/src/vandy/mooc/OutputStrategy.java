@@ -9,6 +9,11 @@ import android.util.Log;
  * synchronizing on thread completion in the ping-pong application.
  */
 public class OutputStrategy {
+    /**
+     * Debugging tag used by the Android logger.
+     */
+    private final String TAG = getClass().getSimpleName();
+
     /** 
      * Define a WeakReference to avoid memory leaks.  See
      * www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html
@@ -36,7 +41,7 @@ public class OutputStrategy {
         // see what's going on.
         // @@ FIXED - you fill in here.
         if (null != mOuterClass.get()) {
-            Log.d(this.getClass().getSimpleName(), "Calling out to print to UI");
+            Log.d(TAG, "Calling out to print to UI");
             mOuterClass.get().print(outputString);
         }
     }

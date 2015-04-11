@@ -18,6 +18,11 @@ import android.widget.TextView;
  * ping-pong application.
  */
 public class MainActivity extends Activity {
+    /**
+     * Debugging tag used by the Android logger.
+     */
+    private final String TAG = getClass().getSimpleName();
+
     /** 
      * A plain TextView that PingPong will be "played" upon. 
      */
@@ -224,7 +229,7 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {	
                     @Override
                     public void run() {
-                        Log.d(this.getClass().getSimpleName(), "Printing to UI");
+                        Log.d(TAG, "Printing to UI");
                         mPingPongTextViewLog.append(output 
                                 + System.getProperty("line.separator"));
                         mPingPongScrollView.fullScroll(ScrollView.FOCUS_DOWN);
@@ -232,13 +237,13 @@ public class MainActivity extends Activity {
                         // If we encounter a ping, throw it up on the
                         // screen in color.
                         if (output.toLowerCase(Locale.US).contains("ping")) {
-                            Log.d(this.getClass().getSimpleName(), "Ping happened");
+                            Log.d(TAG, "Ping happened");
                             mPingPongColorOutput.setBackgroundColor(Color.WHITE);
                             mPingPongColorOutput.setTextColor(Color.BLACK);
                             mPingPongColorOutput.setText("PING");
                         }
                         else if (output.toLowerCase(Locale.US).contains("pong")) {
-                            Log.d(this.getClass().getSimpleName(), "Pong happened");
+                            Log.d(TAG, "Pong happened");
                             mPingPongColorOutput.setBackgroundColor(Color.BLACK);
                             mPingPongColorOutput.setTextColor(Color.WHITE);
                             mPingPongColorOutput.setText("PONG");
@@ -248,11 +253,11 @@ public class MainActivity extends Activity {
 				
                 // Wait 0.5 seconds before handling the next message.
                 try {
-                    Log.d(this.getClass().getSimpleName(), "Waiting...");
+                    Log.d(TAG, "Waiting...");
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     // If we get interrupted, stop the looper.
-                    Log.d(this.getClass().getSimpleName(), "Quiting...");
+                    Log.d(TAG, "Quiting...");
                     Looper.myLooper().quit();
                 }
             }
