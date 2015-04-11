@@ -53,14 +53,14 @@ public class DownloadUtils {
      * FileOutputStream, and return the path to the image file on
      * disk.
      *
-     * @param context	the context in which to write the file.
+     * @param context   the context in which to write the file.
      * @param url       the web url.
      * 
      * @return          the absolute path to the downloaded image file on the file system.
      */
     public static Uri downloadImage(Context context,
                                     Uri url) {
-    	try {
+        try {
             if (!isExternalStorageWritable()) {
                 Log.d(TAG,
                       "external storage is not writable");
@@ -106,7 +106,7 @@ public class DownloadUtils {
      * Decode an InputStream into a Bitmap and store it in a file on
      * the device.
      *
-     * @param context	   the context in which to write the file.
+     * @param context      the context in which to write the file.
      * @param inputStream  the Input Stream.
      * @param fileName     name of the file.
      * 
@@ -118,9 +118,6 @@ public class DownloadUtils {
         // Decode the InputStream into a Bitmap image.
         Bitmap imageToSave =
             BitmapFactory.decodeStream(inputStream);
-
-        if (imageToSave == null)
-            return null;
 
         File directory =
             new File(Environment.getExternalStoragePublicDirectory
