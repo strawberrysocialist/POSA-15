@@ -63,7 +63,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         // Cache the EditText that holds the urls entered by the user
         // (if any).
         // @@ FIXED -- you fill in here.
-        mUrlEditText = (EditText) this.findViewById(R.id.textView1);
+        mUrlEditText = (EditText) this.findViewById(R.id.url);
     }
 
     /**
@@ -126,12 +126,20 @@ public class MainActivity extends LifecycleLoggingActivity {
                 // create an Intent that will launch the "Gallery" app
                 // by passing in the path to the downloaded image
                 // file.
-                // @@ REVIEW -- you fill in here.
+                // @@ FIXED -- you fill in here.
                 Intent showImage = this.makeGalleryIntent(data.getDataString());
 
                 // Start the Gallery Activity.
                 // @@ FIXED -- you fill in here.
-                this.startActivity(showImage);
+                if (null != showImage) {
+                    Log.d(TAG, "Displaying image at " + data.getDataString());
+                    this.startActivity(showImage);
+                }
+                else {
+                    Toast.makeText(this, 
+                                "Unable to start a Photo Gallery app.",  
+                                Toast.LENGTH_SHORT);
+                }
             }
         }
         // Check if the started Activity did not complete successfully
@@ -153,13 +161,13 @@ public class MainActivity extends LifecycleLoggingActivity {
     private Intent makeGalleryIntent(String pathToImageFile) {
         // Create an intent that will start the Gallery app to view
         // the image.
-        // REVIEW -- you fill in here, replacing "null" with the proper
+        // FIXED -- you fill in here, replacing "null" with the proper
         // code.
+        Log.d(TAG, "Preparing to show image at " + pathToImageFile);
         Intent showImage = new Intent();
         showImage.setAction(Intent.ACTION_VIEW);
-        showImage.addCategory(Intent.CATEGORY_APP_GALLERY);
-        showImage.setDataAndType(Uri.parse(pathToImageFile), 
-                android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        //showImage.addCategory(Intent.CATEGORY_APP_GALLERY);
+        showImage.setDataAndType(Uri.parse("file://" + pathToImageFile), "image/*");
         return showImage;
     }
 
@@ -197,7 +205,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         // toast if the URL is invalid.
         // @@ FIXED -- you fill in here, replacing "true" with the
         // proper code.
-        if (URLUtil.isValidUrl(uri))
+        if (URLUtil.isValidUrl(url.toString()))
             return url;
         else {
             Toast.makeText(this,

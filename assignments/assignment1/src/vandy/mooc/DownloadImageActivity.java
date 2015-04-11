@@ -47,7 +47,15 @@ public class DownloadImageActivity extends Activity {
         // for more discussion about this topic.
         
         Uri imageUri = DownloadUtils.downloadImage(this.getApplicationContext(), url);
-        Intent imageFile = new Intent();
-        imageFile.setData(imageUri);
+        if (null != imageUri) {
+            Log.d(TAG, "Downloaded imgae stored at " + imageUri.toString());
+            Intent imageFile = new Intent();
+            imageFile.setData(imageUri);
+            this.setResult(RESULT_OK, imageFile);
+        }
+        else {
+            this.setResult(RESULT_CANCELED);
+        }
+        this.finish();
     }
 }
