@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.util.Log;
 
 /**
  * Main Activity for the Android implementation of the concurrent
@@ -230,8 +231,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
                         Log.d(TAG, "Printing to UI");
-                        mPingPongTextViewLog.append(output 
-                                + System.getProperty("line.separator"));
+                        mPingPongTextViewLog.append(output);
                         mPingPongScrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				        
                         // If we encounter a ping, throw it up on the

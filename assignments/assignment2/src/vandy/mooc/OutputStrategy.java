@@ -42,7 +42,8 @@ public class OutputStrategy {
         // @@ FIXED - you fill in here.
         if (null != mOuterClass.get()) {
             Log.d(TAG, "Calling out to print to UI");
-            mOuterClass.get().print(outputString);
+            mOuterClass.get().print(outputString 
+            		+ System.getProperty("line.separator"));
         }
     }
 
