@@ -145,8 +145,7 @@ public class PlayPingPong implements Runnable {
             // appropriate code.
             Log.d(TAG, "Handling message...");
             if (mIterationsCompleted < mMaxIterations) {
-                Log.d(TAG, 
-                        "Incrementing..." + mMyType.name() 
+                Log.d(TAG, "Incrementing..." + mMyType.name() 
                         + " to " + mIterationsCompleted);
                 mOutputStrategy.print(mMyType.name() 
                         + "(" + mIterationsCompleted + ")"); 
@@ -175,8 +174,7 @@ public class PlayPingPong implements Runnable {
                 msg.setTarget((Handler) reqMsg.obj);
                 msg.obj = reqMsg.getTarget();
                 
-                Log.d(TAG, 
-                        "Preparing message for " + mMyType.name());
+                Log.d(TAG, "Preparing message for " + mMyType.name());
             }
 
             // Return control to the Handler in the other
