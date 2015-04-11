@@ -13,7 +13,7 @@ public class DownloadImageActivity extends Activity {
     /**
      * Debugging tag used by the Android logger.
      */
-    private final String TAG = getClass().getSimpleName();
+     final String TAG = getClass().getSimpleName();
 
     /**
      * Hook method called when a new instance of Activity is created.
@@ -27,9 +27,12 @@ public class DownloadImageActivity extends Activity {
         // Always call super class for necessary
         // initialization/implementation.
         // @@ TODO -- you fill in here.
+        super.onCreate(savedInstanceState);
 
         // Get the URL associated with the Intent data.
         // @@ TODO -- you fill in here.
+        final Intent intent = getIntent();
+        final Uri url = intent.getParcelableExtra("url");
 
         // Download the image in the background, create an Intent that
         // contains the path to the image file, and set this as the
@@ -41,5 +44,22 @@ public class DownloadImageActivity extends Activity {
         // methods should be called in the background thread.  See
         // http://stackoverflow.com/questions/20412871/is-it-safe-to-finish-an-android-activity-from-a-background-thread
         // for more discussion about this topic.
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final Uri resultUrl = DownloadUtils.downloadImage(DownloadImageActivity.this, url);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("url", resultUrl);
+                        setResult(Activity.RESULT_OK, resultIntent);
+                        finish();
+                    }
+                });
+            }
+        };
+        new Thread(runnable).start();
     }
 }
