@@ -53,14 +53,17 @@ public class MainActivity extends LifecycleLoggingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Always call super class for necessary
         // initialization/implementation.
-        // @@ TODO -- you fill in here.
+        // @@ FIXED -- you fill in here.
+        super.onCreate(savedInstanceState);
 
         // Set the default layout.
-        // @@ TODO -- you fill in here.
+        // @@ FIXED -- you fill in here.
+        this.setContentView(R.layout.main_activity);
 
         // Cache the EditText that holds the urls entered by the user
         // (if any).
-        // @@ TODO -- you fill in here.
+        // @@ FIXED -- you fill in here.
+        mUrlEditText = (EditText) this.findViewById(R.id.textView1);
     }
 
     /**
@@ -70,6 +73,7 @@ public class MainActivity extends LifecycleLoggingActivity {
      * @param view The view.
      */
     public void downloadImage(View view) {
+        Log.d(TAG, "Entering downloadImage");
         try {
             // Hide the keyboard.
             hideKeyboard(this,
@@ -80,13 +84,21 @@ public class MainActivity extends LifecycleLoggingActivity {
             // image from the URL given by the user.  In this case
             // it's an Intent that's implemented by the
             // DownloadImageActivity.
-            // @@ TODO - you fill in here.
+            // @@ FIXED - you fill in here.
+            Intent downloadImage = null;
+            Uri url = this.getUrl();
+            if (null != url) {
+                downloadImage = this.makeDownloadImageIntent(url);
+            }
 
             // Start the Activity associated with the Intent, which
             // will download the image and then return the Uri for the
             // downloaded image file via the onActivityResult() hook
             // method.
-            // @@ TODO -- you fill in here.
+            // @@ FIXED -- you fill in here.
+            if (null != downloadImage) {
+                this.startActivityForResult(downloadImage, DOWNLOAD_IMAGE_REQUEST);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,29 +115,34 @@ public class MainActivity extends LifecycleLoggingActivity {
                                     int resultCode,
                                     Intent data) {
         // Check if the started Activity completed successfully.
-        // @@ TODO -- you fill in here, replacing true with the right
+        // @@ FIXED -- you fill in here, replacing true with the right
         // code.
-        if (true) {
+        if (resultCode == RESULT_OK) {
             // Check if the request code is what we're expecting.
-            // @@ TODO -- you fill in here, replacing true with the
+            // @@ FIXED -- you fill in here, replacing true with the
             // right code.
-            if (true) {
+            if (requestCode == DOWNLOAD_IMAGE_REQUEST) {
                 // Call the makeGalleryIntent() factory method to
                 // create an Intent that will launch the "Gallery" app
                 // by passing in the path to the downloaded image
                 // file.
-                // @@ TODO -- you fill in here.
+                // @@ REVIEW -- you fill in here.
+                Intent showImage = this.makeGalleryIntent(data.getDataString());
 
                 // Start the Gallery Activity.
-                // @@ TODO -- you fill in here.
+                // @@ FIXED -- you fill in here.
+                this.startActivity(showImage);
             }
         }
         // Check if the started Activity did not complete successfully
         // and inform the user a problem occurred when trying to
         // download contents at the given URL.
-        // @@ TODO -- you fill in here, replacing true with the right
+        // @@ FIXED -- you fill in here, replacing true with the right
         // code.
-        else if (true) {
+        else if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, 
+                            "Unable to download the desired contents.", 
+                            Toast.LENGTH_SHORT).show();
         }
     }    
 
@@ -136,9 +153,14 @@ public class MainActivity extends LifecycleLoggingActivity {
     private Intent makeGalleryIntent(String pathToImageFile) {
         // Create an intent that will start the Gallery app to view
         // the image.
-    	// TODO -- you fill in here, replacing "null" with the proper
-    	// code.
-        return null;
+        // REVIEW -- you fill in here, replacing "null" with the proper
+        // code.
+        Intent showImage = new Intent();
+        showImage.setAction(Intent.ACTION_VIEW);
+        showImage.addCategory(Intent.CATEGORY_APP_GALLERY);
+        showImage.setDataAndType(Uri.parse(pathToImageFile), 
+                android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        return showImage;
     }
 
     /**
@@ -147,9 +169,14 @@ public class MainActivity extends LifecycleLoggingActivity {
      */
     private Intent makeDownloadImageIntent(Uri url) {
         // Create an intent that will download the image from the web.
-    	// TODO -- you fill in here, replacing "null" with the proper
-    	// code.
-        return null;
+        // FIXED -- you fill in here, replacing "null" with the proper
+        // code.
+        //Intent downloadImage = new Intent(this.getApplicationContext(), DownloadImageActivity.class);
+        Intent downloadImage = new Intent();
+        downloadImage.setAction(Intent.ACTION_WEB_SEARCH);
+        downloadImage.addCategory(Intent.CATEGORY_DEFAULT);
+        downloadImage.setData(url);
+        return downloadImage;
     }
 
     /**
@@ -168,9 +195,9 @@ public class MainActivity extends LifecycleLoggingActivity {
 
         // Do a sanity check to ensure the URL is valid, popping up a
         // toast if the URL is invalid.
-        // @@ TODO -- you fill in here, replacing "true" with the
+        // @@ FIXED -- you fill in here, replacing "true" with the
         // proper code.
-        if (true)
+        if (URLUtil.isValidUrl(uri))
             return url;
         else {
             Toast.makeText(this,
