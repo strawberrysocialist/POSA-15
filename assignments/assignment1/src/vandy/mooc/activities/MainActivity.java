@@ -47,7 +47,7 @@ public class MainActivity extends LifecycleLoggingActivity
      * @param Bundle object that contains saved state information.
      */
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         // Always call super class for necessary
         // initialization/implementation.
         super.onCreate(savedInstanceState);
@@ -123,9 +123,9 @@ public class MainActivity extends LifecycleLoggingActivity
      * additional result data returned from the service.
      */
     @Override
-        public void onServiceResult(int requestCode,
-                                    int resultCode,
-                                    Bundle data) {
+    public void onServiceResult(int requestCode,
+                                int resultCode,
+                                Bundle data) {
         // Handle the results.
         mImageOps.doResult(requestCode,
                            resultCode,
