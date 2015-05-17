@@ -147,7 +147,7 @@ public class DisplayImagesActivity extends LifecycleLoggingActivity {
          * Returns the count of bitmaps in the list.
          */
         @Override
-        public int getCount() {
+            public int getCount() {
             return mBitmaps.size();
         }
 
@@ -155,7 +155,7 @@ public class DisplayImagesActivity extends LifecycleLoggingActivity {
          * Returns the bitmap at the given position.
          */
         @Override
-        public Object getItem(int position) {
+            public Object getItem(int position) {
             return mBitmaps.get(position);
         }
 
@@ -165,7 +165,7 @@ public class DisplayImagesActivity extends LifecycleLoggingActivity {
          * manner.
          */
         @Override
-        public long getItemId(int position) {
+            public long getItemId(int position) {
             return position;
         }
 
