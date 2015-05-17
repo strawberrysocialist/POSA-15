@@ -89,7 +89,7 @@ public class MainActivity extends LifecycleLoggingActivity
                 // Create the ImageOps object one time.  The "true"
                 // parameter instructs ImageOps to use the
                 // DownloadImagesBoundService.
-                mImageOps = new ImageOps(this, true);
+                mImageOps = new ImageOps(this);
 
                 // Store the ImageOps into the
                 // RetainedFragmentManager.

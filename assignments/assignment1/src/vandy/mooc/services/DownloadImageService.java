@@ -24,6 +24,12 @@ public class DownloadImageService extends IntentService {
      * Debugging tag used by the Android logger.
      */
     private final String TAG = getClass().getSimpleName();
+    // http://i0.kym-cdn.com/photos/images/original/000/961/263/80e.jpg
+    // http://i3.kym-cdn.com/photos/images/original/000/919/578/c2f.jpg
+    // http://i0.kym-cdn.com/photos/images/original/000/957/232/df2.jpg
+    // http://www.john-partridge.info/1.jpg
+    // http://www.john-partridge.info/2.jpg
+    // http://www.john-partridge.info/3.jpg
 
     /**
      * String constant used to extract the Messenger "extra" from an
@@ -76,7 +82,7 @@ public class DownloadImageService extends IntentService {
     	// the directory pathname as an "extra" to the intent
         // to tell the Service where to place the image within
         // external storage.
-    	Intent downloadImage = new Intent();
+    	Intent downloadImage = new Intent(context, DownloadImageService.class);
     	downloadImage.setData(url);
     	downloadImage.putExtra(REQUEST_CODE, requestCode);
     	downloadImage.putExtra(MESSENGER, new Messenger(downloadHandler));
@@ -197,7 +203,7 @@ public class DownloadImageService extends IntentService {
         // Put the URL to the image file into the Bundle via the
         // IMAGE_URL key.
         // @@ TODONE -- you fill in here.
-        bundle.putParcelable(IMAGE_URL, url);
+        bundle.putString(IMAGE_URL, url.toString());
     	Log.d(TAG, "Image downloaded " + url.toString());
 
         // Return the result to indicate whether the download
@@ -212,13 +218,14 @@ public class DownloadImageService extends IntentService {
         // IMAGE_PATHNAME key only if the download succeeded.
         // @@ TODONE -- you fill in here.
 		if (resultCode == Activity.RESULT_OK) {
-			bundle.putParcelable(IMAGE_PATHNAME, pathToImageFile);
-	    	Log.d(TAG, "Image saved to " + pathToImageFile);
+			bundle.putString(IMAGE_PATHNAME, pathToImageFile.toString());
+	    	Log.d(TAG, "Image saved to " + pathToImageFile.toString());
 		}
 
         // Set the Bundle to be the data in the message.
         // @@ TODONE -- you fill in here.
         message.setData(bundle);
+        message.arg1 = resultCode;
 
         return message;
     }
