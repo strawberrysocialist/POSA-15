@@ -178,7 +178,7 @@ public class DownloadImageService extends IntentService {
         
         // Send the path to the image file back to the
         // MainActivity.
-        // @@ TODO -- you fill in here.
+        // @@ TODONE -- you fill in here.
         try {
 			messenger.send(message);
 		} catch (RemoteException e) {
