@@ -13,7 +13,11 @@ import android.os.Messenger;
  * original Message.
  */
 public class DownloadImagesBoundService extends LifecycleLoggingService {
-     /**
+    // http://www.john-partridge.info/1.jpg
+    // http://www.john-partridge.info/2.jpg
+    // http://www.john-partridge.info/3.jpg
+
+	/**
      * A RequestHandler that handles request Messages send from the
      * Activity.
      */

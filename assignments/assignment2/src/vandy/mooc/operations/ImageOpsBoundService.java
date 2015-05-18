@@ -109,14 +109,16 @@ public class ImageOpsBoundService extends ImageOpsImpl {
     public void unbindService() {
         if (mRequestMessengerRef != null) {
             Log.d(TAG, "calling unbindService()");
-            // Unbind from the Service.
-            // TODONE -- you fill in here.
-            mActivity.get().unbindService(mServiceConnection);
+            if (mServiceConnection != null) {
+                // Unbind from the Service.
+                // TODONE -- you fill in here.
+                mActivity.get().unbindService(mServiceConnection);
 
-            // Set this field to null to trigger a call to
-            // bindService() next time bindService() is called.
-            // TODONE -- you fill in here.
-            mServiceConnection = null;
+                // Set this field to null to trigger a call to
+                // bindService() next time bindService() is called.
+                // TODONE -- you fill in here.
+                mServiceConnection = null;
+            }
         }
     }
 

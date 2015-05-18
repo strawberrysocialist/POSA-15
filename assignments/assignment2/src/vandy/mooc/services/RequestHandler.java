@@ -108,7 +108,7 @@ class RequestHandler extends Handler {
         // Execute the downloadImageAndReply Runnable to download the
         // image and reply.
         // TODONE -- you fill in here.
-        mExecutorService.execute(downloadImageAndReply);
+        mExecutorService.submit(downloadImageAndReply);
     }
 
     /**
