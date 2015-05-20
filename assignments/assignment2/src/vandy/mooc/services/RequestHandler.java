@@ -64,7 +64,7 @@ class RequestHandler extends Handler {
         // TODONE -- you fill in here.
         final Messenger replyMessenger = message.replyTo;
 
-        // Get the URL associated with the Intent data.
+        // Get the URL associated with the message data.
         // TODONE -- you fill in here.
         final Uri url = requestMessage.getImageURL();
 
