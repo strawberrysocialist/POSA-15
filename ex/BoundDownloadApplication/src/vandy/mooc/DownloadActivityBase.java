@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.StrictMode;
+//import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
