@@ -14,6 +14,7 @@ import vandy.mooc.jsonacronym.JsonAcronym;
 import android.app.Activity;
 import android.content.Context;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class Utils {
             // Opens a connection to the Acronym Service.
             HttpURLConnection urlConnection =
                 (HttpURLConnection) url.openConnection();
+            Log.d(TAG, "Opened a connection to " + url.toString());
             
             // Sends the GET request and reads the Json results.
             try (InputStream in =
@@ -71,6 +73,7 @@ public class Utils {
                 jsonAcronyms = parser.parseJsonStream(in);
             } finally {
                 urlConnection.disconnect();
+                Log.d(TAG, "Closed the connection to " + url.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();

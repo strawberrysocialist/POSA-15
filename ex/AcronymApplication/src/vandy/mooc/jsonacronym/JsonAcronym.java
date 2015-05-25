@@ -1,7 +1,7 @@
 package vandy.mooc.jsonacronym;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 /**
  * This "Plain Ol' Java Object" (POJO) class represents data of
