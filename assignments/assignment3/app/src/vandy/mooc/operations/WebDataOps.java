@@ -14,7 +14,8 @@ public class WebDataOps {
      * Reference to the designed Concrete Implementor (i.e., either
      * ImageOpsBoundService or ImageOpsStartedService).
      */
-    private DownloadService mDownloadService;
+    @SuppressWarnings("unused")
+	private DownloadService mDownloadService;
     
     /**
      * Constructor will choose either the Started Service or Bound

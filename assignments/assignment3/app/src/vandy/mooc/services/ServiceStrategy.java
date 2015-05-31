@@ -14,6 +14,7 @@ public class ServiceStrategy {
 
 	private DownloadService mDownloadService = null;
 	
+	@SuppressWarnings("unused")
 	private WebDataOps mCallback = null; 
 	
     public enum DownloadStrategy {
