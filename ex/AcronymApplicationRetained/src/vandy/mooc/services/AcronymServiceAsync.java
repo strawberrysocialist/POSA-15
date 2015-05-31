@@ -8,7 +8,7 @@ import vandy.mooc.aidl.AcronymResults;
 import vandy.mooc.utils.Utils;
 import android.content.Context;
 import android.content.Intent;
-import android.net.http.AndroidHttpClient;
+//import android.net.http.AndroidHttpClient;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;

@@ -1,6 +1,6 @@
 package vandy.mooc.activities;
 
-import vandy.mooc.R;
+//import vandy.mooc.R;
 import vandy.mooc.operations.AcronymOps;
 import vandy.mooc.operations.AcronymOpsImpl;
 import vandy.mooc.utils.RetainedFragmentManager;

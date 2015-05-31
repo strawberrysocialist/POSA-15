@@ -105,8 +105,8 @@ public class WeatherDataJsonParser {
         } finally {
                 reader.endObject();
         }
-        return acronyms;
 */
+        return acronyms;
     }
 
     /**
@@ -168,7 +168,7 @@ public class WeatherDataJsonParser {
                 reader.endObject();
         }
         return acronym;
-    }
     */
     return null;
+    }
 }
