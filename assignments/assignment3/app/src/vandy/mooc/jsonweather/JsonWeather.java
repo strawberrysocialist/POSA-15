@@ -3,7 +3,6 @@ package vandy.mooc.jsonweather;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This "Plain Ol' Java Object" (POJO) class represents data of
  * interest downloaded in Json from the Weather Service.  We don't
@@ -14,6 +13,7 @@ public class JsonWeather {
      * Various tags corresponding to data downloaded in Json from the
      * Weather Service.
      */
+    final public static String list_JSON = "list";
     final public static String cod_JSON = "cod";
     final public static String name_JSON = "name";
     final public static String id_JSON = "id";
