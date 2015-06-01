@@ -6,25 +6,25 @@ public class DownloadServiceBoundAsync extends LifecycleLoggingService implement
 
 	@Override
 	public void download() {
-		// TODO Auto-generated method stub
+		// TO-DO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void getStatus() {
-		// TODO Auto-generated method stub
+		// TO-DO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void getResult() {
-		// TODO Auto-generated method stub
+		// TO-DO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onConfigurationChange(MainActivity activity) {
-		// TODO Auto-generated method stub
+		// TO-DO Auto-generated method stub
 		
 	}
 

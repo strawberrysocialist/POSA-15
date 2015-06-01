@@ -35,28 +35,28 @@ public class ServiceStrategy {
 	        throw new AssertionError(TAG +" " 
 	        		+ ActivityUtils.toCapitalCase(downloadStrategy.toString())
 	        		+ " not implemented yet.");
-			// TODO Create concrete implementation.
+			// TO-DO Create concrete implementation.
 			//break;
 		case INTENT:
 	        throw new AssertionError(TAG +" " 
 	        		+ ActivityUtils.toCapitalCase(downloadStrategy.toString())
 	        		+ " not implemented yet.");
-			// TODO Create concrete implementation.
+			// T-ODO Create concrete implementation.
 			//break;
 		case BOUND_MESSAGE:
 	        throw new AssertionError(TAG +" " 
 	        		+ ActivityUtils.toCapitalCase(downloadStrategy.toString())
 	        		+ " not implemented yet.");
-			// TODO Create concrete implementation.
+			// TO-DO Create concrete implementation.
 			//break;
 		case BOUND_SYNC:
 	        throw new AssertionError(TAG +" " 
 	        		+ ActivityUtils.toCapitalCase(downloadStrategy.toString())
 	        		+ " not implemented yet.");
-			// TODO Create concrete implementation.
+			// TO-DO Create concrete implementation.
 			//break;
 		case BOUND_ASYNC:
-			// TODO Create concrete implementation.
+			// TO-DO Create concrete implementation.
 			mDownloadService = new DownloadServiceBoundAsync();
 			break;
 		}

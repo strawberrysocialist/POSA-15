@@ -40,6 +40,6 @@ public class WebDataOps {
      * configuration change occurs to finish the initialization steps.
      */
     public void onConfigurationChange(MainActivity activity) {
-        // TODO
+        // TO-DO
     }
 }
