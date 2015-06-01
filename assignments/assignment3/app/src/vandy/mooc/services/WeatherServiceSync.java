@@ -10,7 +10,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 /**
- * @class WeatherDataServiceSync
+ * @class WeatherServiceSync
  * 
  * @brief This class uses synchronous AIDL interactions to check
  *        the weather for a location via an Weather Data Web
@@ -28,17 +28,17 @@ import android.os.RemoteException;
  *        interprocess communication details are hidden behind the
  *        AIDL interfaces.
  */
-public class WeatherDataServiceSync extends LifecycleLoggingService {
+public class WeatherServiceSync extends LifecycleLoggingService {
     /**
      * Factory method that makes an Intent used to start the
-     * WeatherDataServiceSync when passed to bindService().
+     * WeatherServiceSync when passed to bindService().
      * 
      * @param context
      *            The context of the calling component.
      */
     public static Intent makeIntent(Context context) {
         return new Intent(context,
-        		WeatherDataServiceSync.class);
+        		WeatherServiceSync.class);
     }
 
     /**

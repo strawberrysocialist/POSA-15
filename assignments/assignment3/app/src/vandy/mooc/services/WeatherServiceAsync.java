@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 /**
- * @class WeatherDataServiceAsync
+ * @class WeatherServiceAsync
  * 
  * @brief This class uses asynchronous AIDL interactions to expand
  *        acronyms via an Weather Data Web service.  The MainActivity
@@ -26,17 +26,17 @@ import android.os.RemoteException;
  *        interprocess communication details are hidden behind the
  *        AIDL interfaces.
  */
-public class WeatherDataServiceAsync extends LifecycleLoggingService {
+public class WeatherServiceAsync extends LifecycleLoggingService {
     /**
      * Factory method that makes an Intent used to start the
-     * WeatherDataServiceAsync when passed to bindService().
+     * WeatherServiceAsync when passed to bindService().
      * 
      * @param context
      *            The context of the calling component.
      */
     public static Intent makeIntent(Context context) {
         return new Intent(context,
-        		WeatherDataServiceAsync.class);
+        		WeatherServiceAsync.class);
     }
 
     /**
