@@ -2,5 +2,12 @@
 
     <string name="app_name">Weather Service App</string>
     <string name="location_title">Location</string>
+    <string name="location_label">Location</string>
+    <string name="wind_label">Wind</string>
+    <string name="location_hint">Please enter a location to see the weather.</string>
+    <string name="temperature_label">Temp.</string>
+    <string name="humidity_label">Hum.</string>
+    <string name="sunrise_label">Sunrise</string>
+    <string name="sunset_label">Sunset</string>
 
 </resources>

@@ -18,16 +18,16 @@ public interface WeatherDataOps {
     public void unbindService();
 
     /*
-     * Initiate the synchronous acronym lookup when the user presses
+     * Initiate the synchronous weather retrieval when the user presses
      * the "Look Up Sync" button.
      */
-    public void expandAcronymSync(View v);
+    public void getWeatherSync(View v);
 
     /*
-     * Initiate the asynchronous acronym lookup when the user presses
+     * Initiate the asynchronous weather retrieval when the user presses
      * the "Look Up Async" button.
      */
-    public void expandAcronymAsync(View v);
+    public void getWeatherAsync(View v);
 
     /**
      * Called after a runtime configuration change occurs to finish

@@ -1,5 +1,6 @@
 package vandy.mooc.aidl;
 
+import vandy.mooc.utils.Utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -44,6 +45,7 @@ public class WeatherData implements Parcelable {
     private long mHumidity;
     private long mSunrise;
     private long mSunset;
+    private static final int DEGREE = 176;
 
     /**
      * Constructor
@@ -86,6 +88,32 @@ public class WeatherData implements Parcelable {
             + ", sunset=" + mSunset + "]";
     }
 
+    public String getHumidity() {
+    	return String.valueOf(mHumidity) + "%";
+    }
+    
+    public String getLocation() {
+    	return mName;
+    }
+    
+    public String getSunrise() {
+    	return Utils.longToTime(mSunrise);
+    }
+    
+    public String getSunset() {
+    	return Utils.longToTime(mSunset);
+    }
+    
+    public String getTempurature() {
+    	// TODO Store temp units
+    	return String.valueOf(Math.round(mTemp)) + " " + 
+    			Character.toChars(DEGREE).toString() + "F";
+    }
+    
+    public String getWind() {
+    	return mSpeed + " " + Utils.getWindDirection(mDeg);
+    }
+    
     /*
      * BELOW THIS is related to Parcelable Interface.
      */

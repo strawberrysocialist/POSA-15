@@ -1,7 +1,11 @@
 package vandy.mooc.services;
 
+import java.util.List;
+
+import vandy.mooc.aidl.WeatherData;
 import vandy.mooc.aidl.WeatherRequest;
 import vandy.mooc.aidl.WeatherResults;
+import vandy.mooc.utils.Utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
@@ -63,7 +67,7 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
     WeatherRequest.Stub mWeatherRequestImpl = new WeatherRequest.Stub() {
         /**
          * Implement the AIDL WeatherRequest getCurrentWeather()
-         * method, which forwards to DownloadUtils getResults() to
+         * method, which forwards to Utils getWeatherResults() to
          * obtain the results from the Weather Web service and
          * then sends the results back to the Activity via a
          * callback.
@@ -71,7 +75,14 @@ public class WeatherServiceAsync extends LifecycleLoggingService {
     	@Override
     	public void getCurrentWeather(String Weather, WeatherResults results)
                 throws RemoteException {
-			// TODO Auto-generated method stub
+            // Call the Weather Web service to get the list of
+            // weather results for the location.
+			List<WeatherData> weatherResults = 
+					Utils.getWeatherResults(Weather);
+			
+            // Invoke a one-way callback to send list of weather
+            // results back to the MainActivity.
+			results.sendResults(weatherResults);
     	}
     };
 }

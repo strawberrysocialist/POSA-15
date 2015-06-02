@@ -26,7 +26,7 @@ public class DownloadUtils {
     private static final int BUFLEN = 1024;
     
     private static Boolean mGuaranteeUniqueness = null;
-
+    
     /**
      * Download the file located at the provided Internet url using
      * the URL class, store it on the android file system using a

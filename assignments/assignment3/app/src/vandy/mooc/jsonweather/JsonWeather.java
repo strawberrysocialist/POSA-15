@@ -206,4 +206,28 @@ public class JsonWeather {
     public void setCod(long cod) {
         mCod = cod;
     }
+    
+    public double getWindSpeed() {
+    	return mWind.getSpeed();
+    }
+    
+    public double getWindDirection() {
+    	return mWind.getDeg();
+    }
+    
+    public long getHumidity() {
+    	return mMain.getHumidity();
+    }
+    
+    public long getSunrise() {
+    	return mSys.getSunrise();
+    }
+    
+    public long getSunset() {
+    	return mSys.getSunset();
+    }
+    
+    public double getTemp() {
+    	return mMain.getTemp();
+    }
 }
