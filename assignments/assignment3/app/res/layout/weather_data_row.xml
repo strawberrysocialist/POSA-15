@@ -16,25 +16,30 @@
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/locationName"
+        android:layout_alignBaseline="@+id/locationName"
+        android:layout_alignBottom="@+id/locationName"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:text="@string/temperature_label" />
 
     <TextView
         android:id="@+id/humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/temperature"
+        android:layout_alignBaseline="@+id/locationName"
+        android:layout_alignBottom="@+id/locationName"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:text="@string/humidity_label" />
 
    	<TextView
         android:id="@+id/sunrise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="false"
-        android:layout_below="@id/locationName"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/humidity"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:text="@string/sunrise_label" />
@@ -54,8 +59,8 @@
         android:id="@+id/wind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/sunset"
-        android:layout_alignBottom="@+id/sunset"
+        android:layout_alignBaseline="@+id/sunrise"
+        android:layout_alignBottom="@+id/sunrise"
         android:layout_toEndOf="@+id/sunset"
         android:text="@string/wind_label" />
 	    

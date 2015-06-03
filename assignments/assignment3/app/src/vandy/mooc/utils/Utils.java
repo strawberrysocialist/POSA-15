@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,16 @@ public class Utils {
      */
     private final static String TAG = "Utils";
 
-    private static String sWeather_Service_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
+    @SuppressWarnings("unused")
+	private static String sWeather_Service_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
+    
+    private static String sWeather_Service_Base_URL = "http://api.openweathermap.org/data/2.5/";
+    
+    private static String sSingle_City = "weather?q=";
+    
+    private static String sMetric_Units = "&units=metric";
+    
+    private static String sImperial_Units = "&units=imperial";
     
     private static final double[] DEGREES = {
     		0, 11.25, 33.75, 56.25, 
@@ -55,10 +65,7 @@ public class Utils {
 
         try {
             // Append the location to create the full URL.
-            final URL url = new URL(sWeather_Service_URL + location);
-            //final URL url = new URL("http://api.openweathermap.org/data/2.5/box/city?bbox=12,32,15,37,10&cluster=yes");
-            Log.d(TAG, "Checking weather for " + location +
-            		" using " + url.toString());
+            final URL url = getRequestUrl(location);
 
             // Opens a connection to the Weather Service.
             HttpURLConnection urlConnection =
@@ -103,11 +110,41 @@ public class Utils {
         }
     }
     
+    private static URL getRequestUrl(final String location) {
+        URL url = null;
+        final String country = Locale.getDefault().getCountry();
+        final String uri;
+        if (country.equals("US") || 
+        		country.equals("LR") || 
+        		country.equals("MM")) {
+            uri = sWeather_Service_Base_URL +
+            		sSingle_City + location + sImperial_Units;
+        } else {
+            uri = sWeather_Service_Base_URL +
+            		sSingle_City + location + sMetric_Units;
+        }
+        
+		try {
+			url = new URL(uri);
+	        Log.d(TAG, "Checking weather for " + location +
+	        		" using " + url.toString());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+    	return url;
+    }
+    
     public static String longToTime(long time) {
-    	final Date date = new Date(time);
+    	// Convert time expressed in seconds to 
+    	//	milliseconds for use by Date functions.
+    	final Date date = new Date(time * 1000);
+    	Log.d(TAG, "Converted time (" + time +
+    			") to date (" + date.toString() + ").");
     	final DateFormat formatter = new SimpleDateFormat(
     			"HH:mm", Locale.getDefault());
     	final String dateFormatted = formatter.format(date);    	
+    	Log.d(TAG, "Formatted date (" + date.toString() +
+    			") to (" + dateFormatted + ").");
     	return dateFormatted;
     }
     

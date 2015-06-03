@@ -3,6 +3,7 @@ package vandy.mooc.aidl;
 import vandy.mooc.utils.Utils;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * This class is a Plain Old Java Object (POJO) used for data
@@ -34,6 +35,11 @@ import android.os.Parcelable;
  * https://developer.android.com/reference/android/os/Parcelable.html.
  */
 public class WeatherData implements Parcelable {
+    /**
+     * Used for logging purposes.
+     */
+    private final String TAG = this.getClass().getCanonicalName();
+
     /*
      * These data members are the local variables that will store the
      * WeatherData's state
@@ -45,7 +51,7 @@ public class WeatherData implements Parcelable {
     private long mHumidity;
     private long mSunrise;
     private long mSunset;
-    private static final int DEGREE = 176;
+    private static final String DEGREE = "\u00b0";
 
     /**
      * Constructor
@@ -89,6 +95,7 @@ public class WeatherData implements Parcelable {
     }
 
     public String getHumidity() {
+    	Log.d(TAG, "Humidity is " + mHumidity + "%");
     	return String.valueOf(mHumidity) + "%";
     }
     
@@ -106,8 +113,10 @@ public class WeatherData implements Parcelable {
     
     public String getTempurature() {
     	// TODO Store temp units
-    	return String.valueOf(Math.round(mTemp)) + " " + 
-    			Character.toChars(DEGREE).toString() + "F";
+    	Log.d(TAG, "Rounding temp (" + mTemp + 
+    			") to " + Math.round(mTemp));
+    	return String.valueOf(Math.round(mTemp)) + 
+    			" " + DEGREE + "F";
     }
     
     public String getWind() {
