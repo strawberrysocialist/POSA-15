@@ -213,7 +213,7 @@ public class WeatherDataOpsImpl implements WeatherDataOps {
                 mServiceConnectionAsync.getInterface();
 
             if (weatherRequest != null) {
-                // Get the acronym entered by the user.
+                // Get the location entered by the user.
                 final String location =
                     mEditText.get().getText().toString();
 
@@ -271,7 +271,14 @@ public class WeatherDataOpsImpl implements WeatherDataOps {
                 // Thread, where it's displayed.
                 mActivity.get().runOnUiThread(new Runnable() {
                         public void run() {
-                            displayResults(weatherResults);
+                            final String location = 
+                            		mEditText.get().getText().toString();
+                        	if (weatherResults.size() > 0)
+                            	displayResults(weatherResults);
+                            else 
+                                Utils.showShortToast(mActivity.get(),
+                                		"Unable to retreive the weather for "
+                        				+ location);
                         }
                     });
             }

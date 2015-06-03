@@ -220,26 +220,38 @@ public class JsonWeather {
     }
     
     public double getWindSpeed() {
-    	return mWind.getSpeed();
+    	return mWind == null
+    			? 0
+				: mWind.getSpeed();
     }
     
     public double getWindDirection() {
-    	return mWind.getDeg();
+    	return mWind == null
+    			? 0
+				: mWind.getDeg();
     }
     
     public long getHumidity() {
-    	return mMain.getHumidity();
+    	return mMain == null
+    			? 0
+				: mMain.getHumidity();
     }
     
     public long getSunrise() {
-    	return mSys.getSunrise();
+    	return mSys == null
+    			? 0
+				: mSys.getSunrise();
     }
     
     public long getSunset() {
-    	return mSys.getSunset();
+    	return mSys == null
+    			? 0
+				: mSys.getSunset();
     }
     
     public double getTemp() {
-    	return mMain.getTemp();
+    	return mMain == null
+    			? 0
+				: mMain.getTemp();
     }
 }

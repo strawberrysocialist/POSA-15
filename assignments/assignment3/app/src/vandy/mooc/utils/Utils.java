@@ -90,6 +90,7 @@ public class Utils {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return returnList;
         }
 
         if (jsonWeathers != null && jsonWeathers.size() > 0) {
@@ -103,11 +104,9 @@ public class Utils {
                                                jsonWeather.getHumidity(),
                                                jsonWeather.getSunrise(),
                                                jsonWeather.getSunset()));
-             // Return the List of WeatherData.
-             return returnList;
-        }  else {
-        	return null;
         }
+        // Return the List of WeatherData.
+        return returnList;
     }
     
     private static URL getRequestUrl(final String location) {
