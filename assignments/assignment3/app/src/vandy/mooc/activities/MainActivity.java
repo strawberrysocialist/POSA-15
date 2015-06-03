@@ -1,10 +1,12 @@
 package vandy.mooc.activities;
 
 import vandy.mooc.R;
-import vandy.mooc.operations.WebDataOps;
+import vandy.mooc.operations.WeatherDataOps;
+import vandy.mooc.operations.WeatherDataOpsImpl;
 import vandy.mooc.utils.RetainedFragmentManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 public class MainActivity extends LifecycleLoggingActivity {
 
@@ -19,7 +21,7 @@ public class MainActivity extends LifecycleLoggingActivity {
     /**
      * Provides image-related operations.
      */
-    private WebDataOps mWebDataOps;
+    private WeatherDataOps mWeatherDataOps;
 
     /**
      * Hook method called when a new instance of Activity is created.
@@ -42,6 +44,20 @@ public class MainActivity extends LifecycleLoggingActivity {
     }
 
     /**
+     * Hook method called by Android when this Activity is
+     * destroyed.
+     */
+    @Override
+    protected void onDestroy() {
+        // Unbind from the Service.
+    	mWeatherDataOps.unbindService();
+
+        // Always call super class for necessary operations when an
+        // Activity is destroyed.
+        super.onDestroy();
+    }
+
+    /**
      * Handle hardware reconfigurations, such as rotating the display.
      */
     protected void handleConfigurationChanges() {
@@ -52,39 +68,64 @@ public class MainActivity extends LifecycleLoggingActivity {
                   "First time onCreate() call");
 
             // Create the ImageOps object one time.
-            mWebDataOps = new WebDataOps(this);
+            mWeatherDataOps = new WeatherDataOpsImpl(this);
 
             // Store the ImageOps into the RetainedFragmentManager.
             mRetainedFragmentManager.put("IMAGE_OPS_STATE",
-                                         mWebDataOps);
+                                         mWeatherDataOps);
             
+            // Initiate the service binding protocol (which may be a
+            // no-op, depending on which type of DownloadImages*Service is
+            // used).
+            mWeatherDataOps.bindService();
         } else {
             Log.d(TAG,
                   "Second or subsequent onCreate() call");
 
             // The RetainedFragmentManager was previously initialized,
             // which means that a runtime configuration change
-            // occured, so obtain the ImageOps object and inform it
+            // occurred, so obtain the ImageOps object and inform it
             // that the runtime configuration change has completed.
-            mWebDataOps = 
+            mWeatherDataOps = 
                 mRetainedFragmentManager.get("IMAGE_OPS_STATE");
 
             // This check shouldn't be necessary under normal
-            // circumtances, but it's better to lose state than to
+            // circumstances, but it's better to lose state than to
             // crash!
-            if (mWebDataOps == null) {
+            if (mWeatherDataOps == null) {
                 // Create the ImageOps object one time.
-                mWebDataOps = new WebDataOps(this);
+                mWeatherDataOps = new WeatherDataOpsImpl(this);
 
                 // Store the ImageOps into the
                 // RetainedFragmentManager.
                 mRetainedFragmentManager.put("IMAGE_OPS_STATE",
-                                             mWebDataOps);
+                                             mWeatherDataOps);
+                
+                // Initiate the service binding protocol (which may be a
+                // no-op, depending on which type of DownloadImages*Service is
+                // used).
+                mWeatherDataOps.bindService();
             }            
             else 
                 // Inform it that the runtime configuration change has
                 // completed.
-                mWebDataOps.onConfigurationChange(this);
+                mWeatherDataOps.onConfigurationChange(this);
         }
+    }
+    
+    /*
+     * Initiate the synchronous weather lookup when the user presses
+     * the "Look Up Sync" button.
+     */
+    public void getWeatherSync(View v) {
+    	mWeatherDataOps.getWeatherSync(v);
+    }
+
+    /*
+     * Initiate the asynchronous weather lookup when the user presses
+     * the "Look Up Async" button.
+     */
+    public void getWeatherAsync(View v) {
+    	mWeatherDataOps.getWeatherAsync(v);
     }
 }

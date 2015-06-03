@@ -28,7 +28,7 @@ public class Utils {
      */
     private final static String TAG = "Utils";
 
-    private static String sWeather_Service_URL = "api.openweathermap.org/data/2.5/weather?q=";
+    private static String sWeather_Service_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
     
     private static final double[] DEGREES = {
     		0, 11.25, 33.75, 56.25, 
@@ -55,9 +55,10 @@ public class Utils {
 
         try {
             // Append the location to create the full URL.
-            final URL url =
-                new URL(sWeather_Service_URL
-                        + location);
+            final URL url = new URL(sWeather_Service_URL + location);
+            //final URL url = new URL("http://api.openweathermap.org/data/2.5/box/city?bbox=12,32,15,37,10&cluster=yes");
+            Log.d(TAG, "Checking weather for " + location +
+            		" using " + url.toString());
 
             // Opens a connection to the Weather Service.
             HttpURLConnection urlConnection =
@@ -66,14 +67,16 @@ public class Utils {
             
             // Sends the GET request and reads the Json results.
             try (InputStream in =
-                 new BufferedInputStream(urlConnection.getInputStream())) {
-                 // Create the parser.
-                 final WeatherJSONParser parser =
-                     new WeatherJSONParser();
+            		new BufferedInputStream(urlConnection.getInputStream())) {
+				// Create the parser.
+				final WeatherJSONParser parser =
+				     new WeatherJSONParser();
 
-                // Parse the Json results and create JsonWeather data
-                // objects.
-                jsonWeathers = parser.parseJsonStream(in);
+				// Parse the Json results and create JsonWeather data
+				// objects.
+				Log.d(TAG, "Begin parsing JSON.");
+				jsonWeathers = parser.parseJsonStream(in);
+				Log.d(TAG, "JSON parsed.");
             } finally {
                 urlConnection.disconnect();
                 Log.d(TAG, "Closed connection to " + url.toString());
