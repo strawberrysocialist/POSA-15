@@ -9,5 +9,7 @@
     <string name="humidity_label">Hum.</string>
     <string name="sunrise_label">Sunrise</string>
     <string name="sunset_label">Sunset</string>
+    <string name="sync_label">Get Sync</string>
+    <string name="async_label">Get Async</string>
 
 </resources>

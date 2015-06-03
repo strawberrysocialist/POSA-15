@@ -28,12 +28,30 @@
         <requestFocus />
     </EditText>
 
+	<Button
+	   android:id="@+id/weather_sync"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_below="@id/locationTitle"
+	   android:onClick="getWeatherSync"
+	   android:text="@string/sync_label" />
+	
+	<Button
+	   android:id="@+id/weather_async"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+       android:layout_below="@id/locationTitle"
+       android:layout_toEndOf="@id/weather_sync"
+	   android:onClick="getWeatherAsync"
+	   android:text="@string/async_label" />
+    
     <include
         android:id="@+id/labels"
         layout="@layout/weather_data_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/locationName"  />
+        android:layout_below="@id/weather_sync"  />
 
     <ListView
         android:id="@+id/weatherResults"
