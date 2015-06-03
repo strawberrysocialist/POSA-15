@@ -29,7 +29,9 @@ public class WeatherJSONParser {
         // TODONE -- you fill in here.
         JsonReader reader = new JsonReader(
         		new InputStreamReader(inputStream, "UTF-8"));
+        reader.setLenient(true);
         try {
+			Log.d(TAG, "Starting parseJsonStreamResults().");
         	return parseJsonStreamResults(reader);
         } finally {
           reader.close();
@@ -44,27 +46,45 @@ public class WeatherJSONParser {
     		throws IOException {
 		List<JsonWeather> weather = null;
         try {
-        	if (reader.peek() == JsonToken.END_DOCUMENT)
+        	if (reader.peek() == JsonToken.END_DOCUMENT) {
+    			Log.d(TAG, "END_DOCUMENT at beginning.");
         		return null;
-        	
-        	reader.beginObject();
-        	if (reader.peek() == JsonToken.END_OBJECT)
-        		return null;
+        	}
         	
         	JsonToken firstValue = reader.peek();
+			Log.d(TAG, "First token in results object is " + firstValue.toString());
+    		weather = new ArrayList<JsonWeather>();
+    		Log.d(TAG, "Launching parseJsonStreamSingle().");
+        	weather.add(parseJsonStreamSingle(reader));
+        	/**
+        	reader.beginObject();
+			Log.d(TAG, "root: BEGIN_OBJECT");
+        	if (reader.peek() == JsonToken.END_OBJECT) {
+    			Log.d(TAG, "END_OBJECT reached right after beginning.");
+        		return null;
+        	}
+        	
+        	JsonToken firstValue = reader.peek();
+			Log.d(TAG, "First token in results object is " + firstValue.toString());
         	if (firstValue == JsonToken.BEGIN_OBJECT) {
         		weather = new ArrayList<JsonWeather>();
+        		Log.d(TAG, "Launching parseJsonStreamSingle().");
             	weather.add(parseJsonStreamSingle(reader));
         	} else {
+    			Log.d(TAG, "Multiple results...");
         		while (reader.hasNext()) {
                     String name = reader.nextName();
+        			Log.d(TAG, "nextName is " + name);
             		if (name.equals(JsonWeather.list_JSON)) {
+                		Log.d(TAG, "Launching parseJsonWeatherArray().");
             			weather = parseJsonWeatherArray(reader);
             		}
         		}
         	}
+        	*/
         } finally {
-        	reader.endObject();
+			//Log.d(TAG, "root: END_OBJECT");
+        	//reader.endObject();
         }
         return weather;
     }
@@ -76,6 +96,7 @@ public class WeatherJSONParser {
     public JsonWeather parseJsonStreamSingle(JsonReader reader)
     		throws IOException {
         // TODONE -- you fill in here.
+		Log.d(TAG, "Starting parseJsonWeather().");
     	return parseJsonWeather(reader);
     }
 
@@ -88,13 +109,16 @@ public class WeatherJSONParser {
         // TODONE -- you fill in here.
     	List<JsonWeather> weather = null;
         try {
+			Log.d(TAG, "WeatherArray: BEGIN_ARRAY");
         	reader.beginArray();
         	weather = new ArrayList<JsonWeather>();
         	
 			while (reader.hasNext()) {
+				Log.d(TAG, "Beginning parseJsonWeather().");
 	        	weather.add(parseJsonWeather(reader));
 			}
         } finally {
+			Log.d(TAG, "WeatherArray: END_ARRAY");
         	reader.endArray();
         }
         return weather;
@@ -108,24 +132,31 @@ public class WeatherJSONParser {
         // TODONE -- you fill in here.
     	JsonWeather weather = null;
     	try {
+			Log.d(TAG, "Weather: BEGIN_OBJECT");
     		reader.beginObject();
     		weather = new JsonWeather();
+        	Log.d(TAG, "Next token is " + reader.peek().name());
     		while (reader.hasNext()) {
                 String name = reader.nextName();
+    			Log.d(TAG, "nextName: " + name);
                 switch (name) {
                 case JsonWeather.sys_JSON:
+        			Log.d(TAG, "Starting parseSys().");
                 	weather.setSys(parseSys(reader));
                 	break;
                 case JsonWeather.weather_JSON:
+        			Log.d(TAG, "Starting parseWeathers().");
                 	weather.setWeather(parseWeathers(reader));
                 	break;
                 case JsonWeather.base_JSON:
                 	weather.setBase(reader.nextString());
                 	break;
                 case JsonWeather.main_JSON:
+        			Log.d(TAG, "Starting parseMain().");
                 	weather.setMain(parseMain(reader));
                 	break;
                 case JsonWeather.wind_JSON:
+        			Log.d(TAG, "Starting parseWind().");
                 	weather.setWind(parseWind(reader));
                 	break;
                 case JsonWeather.dt_JSON:
@@ -147,6 +178,7 @@ public class WeatherJSONParser {
                 }
     		}
     	} finally {
+			Log.d(TAG, "Weather: END_OBJECT");
     		reader.endObject();
     	}
     	return weather;
@@ -160,13 +192,16 @@ public class WeatherJSONParser {
         // TODONE -- you fill in here.
     	List<Weather> weathers = null;
     	try {
+			Log.d(TAG, "weathers: BEGIN_ARRAY");
     		reader.beginArray();
     		weathers = new ArrayList<Weather>();
     		
     		while (reader.hasNext()) {
+    			Log.d(TAG, "hasNext weather");
     			weathers.add(parseWeather(reader));
     		}
     	} finally {
+			Log.d(TAG, "weathers: END_ARRAY");
     		reader.endArray();
     	}
     	return weathers;
@@ -180,11 +215,13 @@ public class WeatherJSONParser {
         // TODONE -- you fill in here.
     	Weather weather = null;
     	try {
+			Log.d(TAG, "weather: BEGIN_OBJECT");
     		reader.beginObject();
     		weather = new Weather();
     		
     		while (reader.hasNext()) {
                 String name = reader.nextName();
+    			Log.d(TAG, "nextName: " + name);
                 switch (name) {
                 case Weather.id_JSON:
                 	weather.setId(reader.nextLong());
@@ -205,6 +242,7 @@ public class WeatherJSONParser {
                 }
     		}
     	} finally {
+			Log.d(TAG, "weather: END_OBJECT");
     		reader.endObject();
     	}
     	return weather;
@@ -218,11 +256,13 @@ public class WeatherJSONParser {
         // TODONE -- you fill in here.
     	Main main = null;
     	try {
+			Log.d(TAG, "main: BEGIN_OBJECT");
     		reader.beginObject();
     		main = new Main();
     		
     		while (reader.hasNext()) {
                 String name = reader.nextName();
+    			Log.d(TAG, "nextName: " + name);
                 switch (name) {
                 case Main.temp_JSON:
                 	main.setTemp(reader.nextDouble());
@@ -252,6 +292,7 @@ public class WeatherJSONParser {
                 }
     		}
     	} finally {
+			Log.d(TAG, "main: END_OBJECT");
     		reader.endObject();
     	}
     	return main;
@@ -265,11 +306,13 @@ public class WeatherJSONParser {
         // TODONE -- you fill in here.
     	Wind wind = null;
     	try {
+			Log.d(TAG, "wind: BEGIN_OBJECT");
     		reader.beginObject();
     		wind = new Wind();
     		
     		while (reader.hasNext()) {
                 String name = reader.nextName();
+    			Log.d(TAG, "nextName: " + name);
                 switch (name) {
                 case Wind.speed_JSON:
                 	wind.setSpeed(reader.nextDouble());
@@ -284,6 +327,7 @@ public class WeatherJSONParser {
                 }
     		}
     	} finally {
+			Log.d(TAG, "wind: END_OBJECT");
     		reader.endObject();
     	}
     	return wind;
@@ -297,11 +341,13 @@ public class WeatherJSONParser {
         // TODONE -- you fill in here.
     	Sys sys = null;
     	try {
+			Log.d(TAG, "sys: BEGIN_OBJECT");
     		reader.beginObject();
     		sys = new Sys();
     		
     		while (reader.hasNext()) {
                 String name = reader.nextName();
+    			Log.d(TAG, "nextName: " + name);
                 switch (name) {
                 case Sys.message_JSON:
                 	sys.setMessage(reader.nextDouble());
@@ -322,6 +368,7 @@ public class WeatherJSONParser {
                 }
     		}
     	} finally {
+			Log.d(TAG, "sys: END_OBJECT");
     		reader.endObject();
     	}
     	return sys;

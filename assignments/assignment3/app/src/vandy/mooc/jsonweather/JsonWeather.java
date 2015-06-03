@@ -3,12 +3,19 @@ package vandy.mooc.jsonweather;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 /**
  * This "Plain Ol' Java Object" (POJO) class represents data of
  * interest downloaded in Json from the Weather Service.  We don't
  * care about all the data, just the fields defined in this class.
  */
 public class JsonWeather {
+    /**
+     * Used for logging purposes.
+     */
+    private final String TAG = this.getClass().getCanonicalName();
+
     /**
      * Various tags corresponding to data downloaded in Json from the
      * Weather Service.
@@ -94,6 +101,7 @@ public class JsonWeather {
      *            The base
      */
     public void setBase(String base) {
+		Log.d(TAG, "setBase=" + base);
         mBase = base;
     }
 
@@ -159,6 +167,7 @@ public class JsonWeather {
      *            The dt
      */
     public void setDt(long dt) {
+		Log.d(TAG, "setDt=" + dt);
         mDt = dt;
     }
 
@@ -174,6 +183,7 @@ public class JsonWeather {
      *            The id
      */
     public void setId(long id) {
+		Log.d(TAG, "setId=" + id);
         mId = id;
     }
 
@@ -189,6 +199,7 @@ public class JsonWeather {
      *            The name
      */
     public void setName(String name) {
+		Log.d(TAG, "setName=" + name);
         mName = name;
     }
 
@@ -204,6 +215,7 @@ public class JsonWeather {
      *            The cod
      */
     public void setCod(long cod) {
+		Log.d(TAG, "setCod=" + cod);
         mCod = cod;
     }
     

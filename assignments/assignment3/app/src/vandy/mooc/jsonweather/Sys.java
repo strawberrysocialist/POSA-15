@@ -1,10 +1,17 @@
 package vandy.mooc.jsonweather;
 
+import android.util.Log;
+
 /**
  * This "Plain Ol' Java Object" (POJO) class represents system data
  * downloaded in Json from the Weather Service.
  */
 public class Sys {
+    /**
+     * Used for logging purposes.
+     */
+    private final String TAG = this.getClass().getCanonicalName();
+
     /**
      * Various tags corresponding to system data downloaded in Json
      * from the Weather Service.
@@ -35,6 +42,7 @@ public class Sys {
      *            The message
      */
     public void setMessage(double message) {
+		Log.d(TAG, "setMessage=" + message);
         mMessage = message;
     }
 
@@ -50,6 +58,7 @@ public class Sys {
      *            The country
      */
     public void setCountry(String country) {
+		Log.d(TAG, "setCountry=" + country);
         mCountry = country;
     }
 
@@ -65,6 +74,7 @@ public class Sys {
      *            The sunrise
      */
     public void setSunrise(long sunrise) {
+		Log.d(TAG, "setSunrise=" + sunrise);
         mSunrise = sunrise;
     }
 
@@ -80,6 +90,7 @@ public class Sys {
      *            The sunset
      */
     public void setSunset(long sunset) {
+		Log.d(TAG, "setSunset=" + sunset);
         mSunset = sunset;
     }
 }
