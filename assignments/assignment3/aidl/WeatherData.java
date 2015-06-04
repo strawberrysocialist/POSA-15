@@ -1,7 +1,9 @@
 package vandy.mooc.aidl;
 
+import vandy.mooc.utils.Utils;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * This class is a Plain Old Java Object (POJO) used for data
@@ -33,6 +35,11 @@ import android.os.Parcelable;
  * https://developer.android.com/reference/android/os/Parcelable.html.
  */
 public class WeatherData implements Parcelable {
+    /**
+     * Used for logging purposes.
+     */
+    private final String TAG = this.getClass().getCanonicalName();
+
     /*
      * These data members are the local variables that will store the
      * WeatherData's state
@@ -44,6 +51,7 @@ public class WeatherData implements Parcelable {
     private long mHumidity;
     private long mSunrise;
     private long mSunset;
+    private static final String DEGREE = "\u00b0";
 
     /**
      * Constructor
@@ -86,6 +94,35 @@ public class WeatherData implements Parcelable {
             + ", sunset=" + mSunset + "]";
     }
 
+    public String getHumidity() {
+    	Log.d(TAG, "Humidity is " + mHumidity + "%");
+    	return String.valueOf(mHumidity) + "%";
+    }
+    
+    public String getLocation() {
+    	return mName;
+    }
+    
+    public String getSunrise() {
+    	return Utils.longToTime(mSunrise);
+    }
+    
+    public String getSunset() {
+    	return Utils.longToTime(mSunset);
+    }
+    
+    public String getTempurature() {
+    	// TODO Store temp units
+    	Log.d(TAG, "Rounding temp (" + mTemp + 
+    			") to " + Math.round(mTemp));
+    	return String.valueOf(Math.round(mTemp)) + 
+    			" " + DEGREE + "F";
+    }
+    
+    public String getWind() {
+    	return mSpeed + " " + Utils.getWindDirection(mDeg);
+    }
+    
     /*
      * BELOW THIS is related to Parcelable Interface.
      */
